@@ -28,6 +28,8 @@ class LocationsViewModel: ObservableObject {
     //Show list of location
     @Published var showLoocationsList: Bool = false
     
+    //Show location detail via sheet
+    @Published var sheetLocation: Location? = nil
     init() {
         let locations = LocationsDataService.locations
         self.locations = locations
@@ -55,4 +57,29 @@ class LocationsViewModel: ObservableObject {
             showLoocationsList = false
         }
     }
+
+func nextButtonPressed() {
+    
+    //Get the current index
+
+    
+    guard let currentIndex = locations.firstIndex(where: {$0 == mapLocation}) else {
+        print("Could not find index in the current array! Should never happen.")
+        return
+    }
+    //Chek if the current index is valid
+    let nextIndex = currentIndex + 1
+    guard locations.indices.contains(nextIndex) else {
+        //NEXT index is not valid
+        //Restart from 0
+        guard let firstLocation = locations.first else { return }
+            showNextLocation(location: firstLocation)
+        return
+        }
+        //Next index is
+        let nextLocation = locations[nextIndex]
+    showNextLocation(location: nextLocation)
+    
+    }
 }
+
