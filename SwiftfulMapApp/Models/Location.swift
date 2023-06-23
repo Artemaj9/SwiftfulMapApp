@@ -7,7 +7,9 @@
 
 import Foundation
 import MapKit
-struct Location: Identifiable {
+struct Location: Identifiable, Equatable {
+  
+    
     
 //    let id: String = UUID().uuidString
     let name: String
@@ -22,6 +24,10 @@ struct Location: Identifiable {
         //cityName = "Rome"
         //id = "ColoseumRome"
         name + cityName
+    }
+    //Equatable
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
