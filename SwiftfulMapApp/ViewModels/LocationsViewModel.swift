@@ -12,18 +12,21 @@ import SwiftUI
 class LocationsViewModel: ObservableObject {
     
     //All loaded locations
-    @Published var locations: [Location] {
+    @Published var locations: [Location]
+    
+    //Current location on map
+    @Published var mapLocation: Location {
+        
         didSet {
             updateMapRegion(location: mapLocation)
         }
+        
     }
-    
-    
-    //Current location on map
-    @Published var mapLocation: Location
-    
     @Published var mapRegion: MKCoordinateRegion = MKCoordinateRegion()
     let mapSpan =  MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    
+    //Show list of location
+    @Published var showLoocationsList: Bool = false
     
     init() {
         let locations = LocationsDataService.locations
@@ -37,6 +40,19 @@ class LocationsViewModel: ObservableObject {
             mapRegion = MKCoordinateRegion(
                 center: location.coordinates,
                 span: mapSpan)
+        }
+    }
+    
+    func toggleLocationsList() {
+        withAnimation(.easeInOut) {
+            showLoocationsList = !showLoocationsList
+        }
+    }
+    
+    func showNextLocation(locaton: Location) {
+        withAnimation(.easeInOut) {
+            mapLocation = location
+            showLoocationsList = false
         }
     }
 }
